@@ -3,6 +3,7 @@
 其他语言：[中文](./README.zh.md)
 
 > Directly translate markdown file using Azure or AWS Text Translate API.
+This is a fork of [this project](https://github.com/menthays/markdown-translator/).
 
 ## Prerequisites
 
