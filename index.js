@@ -3,7 +3,7 @@ const flatten = require('lodash.flatten');
 const fs = require('fs');
 
 const {parseToTree, getTextTobeTranslated, stringifyToDoc} = require('./lib/parseMarkdown');
-const {translate} = require('./lib/translateByMicrosoft');
+const {translate} = require('./lib/translateByAWS');
 
 module.exports = ({
   src, from, to, subscriptionKey, region
@@ -19,24 +19,21 @@ module.exports = ({
       }
       return prev;
     }, []);
-  
-    const chunkTextArr = chunk(textArr, 100);
-  
+    //console.log(textArr); 
     const translatePromises = []
-  
-    for (let eachTextArr of chunkTextArr) {
-      translatePromises.push(translate(eachTextArr, {
+    for (let eachText of textArr) {
+      translatePromises.push(translate(eachText['text'], {
         from, to, subscriptionKey, region
       }));
     }
   
-    Promise.all(translatePromises).then(dataArr => {
-      let data = flatten(dataArr);
+    Promise.all(translatePromises).then(data => {
+      //let data = flatten(dataArr);
       for (let node of nodeArr) {
         if(node && node.value) {
           const result = data.shift();
-          if (result && result.translations) {
-            node.value = result.translations[0].text
+          if (result && result['TranslatedText']) {
+            node.value = result['TranslatedText']
           }
         }
       }

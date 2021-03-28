@@ -2,10 +2,12 @@
 
 其他语言：[中文](./README.zh.md)
 
-> Directly translate markdown file using Azure Text Translate API
+> Directly translate markdown file using Azure or AWS Text Translate API.
 
 ## Prerequisites
-Get Text Translate API Key from [Azure Cognitive Services](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup)
+
+- Get Text Translate API Key from [Azure Cognitive Services](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup) or 
+- create AWS credentials (access_key_id and secret_access_key) and assign permissions to the AWS translate API (`translate:TranslateText` action is sufficient)
 
 ## Quick Start
 ### Use as cli
@@ -24,6 +26,7 @@ md-translator translate --src README.md --dest README.zh.md --to zh
 md-translator --help
 
 ```
+In case AWS is being used the credentials are currently fetched from the environment (TODO represent in config).
 
 ### Use as binaries
 > Run markdown-translator without Node environment
@@ -57,3 +60,6 @@ Note that there are some opinionated defaults: from is by default 'en', to 'zh'.
 The region argument is optional.
 
 
+### Examples
+
+The file README.zh.md is translated using Azure Translate, the file README.de.md was created using the AWS version.
