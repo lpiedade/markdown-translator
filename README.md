@@ -1,27 +1,26 @@
-# Markdown Translator
+# Markdown Translator on AWS
 
-其他语言：[中文](./README.zh.md)
-
-> Directly translate markdown file using Azure or AWS Text Translate API.
+> Directly translate markdown file using AWS Translate API.
+> 
 This is a fork of [this project](https://github.com/menthays/markdown-translator/).
 
 ## Prerequisites
 
-- Get Text Translate API Key from [Azure Cognitive Services](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup) or 
 - create AWS credentials (access_key_id and secret_access_key) and assign permissions to the AWS translate API (`translate:TranslateText` action is sufficient)
 
 ## Quick Start
+
 ### Use as cli
 ```bash
 # install cli
 npm install markdown-translator -g
 
-# set key and region from Azure Text Translate API
+# set key and region from AWS Translate API
 md-translator set --key <your key>
 md-translator set --region <your region>
 
 # do translate
-md-translator translate --src README.md --dest README.zh.md --to zh
+md-translator translate --src README.md --from en --dest README.zh.md --to zh
 
 # get more infomation
 md-translator --help
@@ -32,7 +31,7 @@ In case AWS is being used the credentials are currently fetched from the environ
 ### Use as binaries
 > Run markdown-translator without Node environment
 
-- Update config.json with your Azure Text Translate API.
+- Update config.json with your AWS credential.
 - Run `npm run dist:mac` to build for macos and `npm run dist:win` for windows.
 - Run the dist binary files like cli, e.g, `./markdown-translator translate --src README.md --dest README.zh.md --to zh`
 
@@ -51,16 +50,22 @@ markdownTranslate({
   from: languageToTranslateFrom,
   to: languageToTranslateTo,
   subscriptionKey: yourSubscriptionKey,
-  region: theRegionOfYourAzureInstance
+  region: theRegionOfYourAWSInstance
 }).then(res => {
   // deal with result
 })
 ```
 
-Note that there are some opinionated defaults: from is by default 'en', to 'zh'.
+Note that there are some opinionated defaults: from is by default 'en', to 'es'.
 The region argument is optional.
 
 
-### Examples
+### Using Node
+```bash
+node cli.js translate --src README.md --from en --dest README.pt.md --to pt
+```
 
-The file README.zh.md is translated using Azure Translate, the file README.de.md was created using the AWS version.
+
+
+
+Credits: @smazanek / @menthays

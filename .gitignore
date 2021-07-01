@@ -1,2 +1,5 @@
 node_modules
 local.config.js
+package-lock.json
+config.json
+

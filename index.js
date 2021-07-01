@@ -9,6 +9,8 @@ module.exports = ({
   src, from, to, subscriptionKey, region
 }) => {
   return new Promise((resolve, reject) => {
+
+    console.log('Starting translate process from '+ from +' to '+to);
     const tree = parseToTree(src);
     const nodeArr = getTextTobeTranslated(tree);
     const textArr = nodeArr.reduce((prev = [], cur) => {
@@ -19,12 +21,14 @@ module.exports = ({
       }
       return prev;
     }, []);
-    //console.log(textArr); 
+    
+    
     const translatePromises = []
     for (let eachText of textArr) {
       translatePromises.push(translate(eachText['text'], {
         from, to, subscriptionKey, region
       }));
+      
     }
   
     Promise.all(translatePromises).then(data => {
@@ -33,7 +37,8 @@ module.exports = ({
         if(node && node.value) {
           const result = data.shift();
           if (result && result['TranslatedText']) {
-            node.value = result['TranslatedText']
+            console.log ('text: ' + node.value + ' => ' + result['TranslatedText']);
+            node.value = result['TranslatedText'];
           }
         }
       }

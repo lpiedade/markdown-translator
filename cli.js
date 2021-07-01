@@ -33,20 +33,22 @@ program
   .command('translate')
   .description('translate markdown file')
   .option('-S, --src [src]', 'src file')
-  .option('-D, --dest [dest]', 'dest file')
-  .option('-F, --from [from]', 'src lang')
-  .option('-R, --region [region]', 'Azure region')
+  .option('-D, --dest [dest]', 'dest file (default: es)')
+  .option('-F, --from [from]', 'src lang (default: en)')
+  .option('-R, --region [region]', 'AWS region (default: us-east-1')
   .option('-T, --to [to]', 'dest lang')
   .option('-K, --key [key]', 'TRANSLATOR_TEXT_KEY')
   .action(function({ src, dest, from, region, to, key }) {
     const srcPath = path.resolve(process.cwd(), src);
     const destPath = path.resolve(process.cwd(), dest);
+    const fromLang = from || 'en';
+    const destLang = to || 'es';
     const subscriptionKey = key || config.key;
-    const serviceRegion = region || config.region;
+    const serviceRegion = region || config.region ;
     translateMarkdown({
       src: srcPath,
-      from,
-      to,
+      from: fromLang,
+      to: destLang,
       subscriptionKey,
       region: serviceRegion,
     }).then(data => {
